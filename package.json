@@ -20,7 +20,7 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "tree-sitter-wake": "^0.18.3"
+    "tree-sitter-wake": "^0.18.4"
   },
   "directories": {
     "lib": "lib"
