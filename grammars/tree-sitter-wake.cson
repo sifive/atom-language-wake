@@ -1,0 +1,140 @@
+name: 'Wake'
+scopeName: 'source.wake'
+type: 'tree-sitter'
+parser: 'tree-sitter-wake'
+
+injectionRegex: 'wake|Wake'
+
+fileTypes: [
+  'wake'
+]
+
+folds: [
+  'top_definition',
+  'top_target',
+  'definition',
+  'target',
+  'topic'
+]
+
+scopes:
+  binary_arity: 'keyword.control'
+  '"data"': 'keyword.control'
+  '"def"': 'storage.type.function'
+  '"else"': 'keyword.control'
+  export_flag: 'keyword.control'
+  '"from"': 'keyword.control'
+  global_flag: 'storage.modifier.global'
+  here_expression: 'keyword.control'
+  '"if"': 'keyword.control'
+  '"import"': 'keyword.import'
+  '"match"': 'keyword.control'
+  '"package"': 'keyword.package'
+  '"prim"': 'keyword.control'
+  '"publish"': 'keyword.control'
+  '"subscribe"': 'keyword.control'
+  '"target"': 'keyword.control'
+  '"then"': 'keyword.control'
+  '"topic"': 'keyword.control'
+  '"tuple"': 'keyword.control'
+  '"type"': 'keyword.control'
+  unary_arity: 'keyword.control'
+
+# Truly special in wake
+
+# "\"		@punctuation.delimiter
+# "="		@punctuation.delimiter
+# ":"		@punctuation.delimiter
+  '"("': 'punctuation.section.parens.begin.bracket.round'
+  '")"': 'punctuation.section.parens.end.bracket.round'
+
+# '";"': 'punctuation.terminator.statement'
+# '"{"': 'punctuation.section.block.begin.bracket.curly'
+# '"}"': 'punctuation.section.block.end.bracket.curly'
+
+  comment: 'comment.block'
+
+# ; These definitions intoduce a function scope that captures their pattern arguments
+# (definition pattern: (low_application_pattern fn: (low_identifier_pattern) @function)) @local.scope
+# (definition pattern: (binary_pattern operator: (*) @function)) @local.scope
+# (definition pattern: (unary_pattern  operator: (*) @function)) @local.scope
+
+  low_application_pattern: 'entity.name.function'
+  binary_pattern: 'entity.name.function'
+  unary_pattern: 'entity.name.function'
+
+# (tuple name: (high_identifier_type) @constructor)
+# (tuple (fields (field name: (high_identifier_pattern) @attribute)))
+#
+# (data type: (binary_type operator: (*) @function))
+# (data type: (unary_type  operator: (*) @function))
+# (data type: (application_type  fn: (*) @function))
+# ;(data type: (high_identifier_type) @local.definition)
+#
+# (data (constructors (binary_type operator: (*) @constructor)))
+# (data (constructors (unary_type  operator: (*) @constructor)))
+# (data (constructors (application_type fn: (high_identifier_type) @constructor)))
+# (data (constructors (high_identifier_type) @constructor))
+#
+# (block_expression)		@local.scope
+# (lambda_expression)		@local.scope
+#
+# (low_identifier_pattern)	@local.definition
+# (high_identifier_pattern)	@local.reference
+# (low_identifier_expression)	@local.reference
+# (high_identifier_expression)	@local.reference
+
+  low_identifier_type: 'support.storage.type'
+  high_identifier_type: 'support.storage.type'
+  application_type: 'support.storage.type'
+  binary_type: 'support.storage.type'
+  unary_type: 'support.storage.type'
+
+# (low_identifier_pattern)	@pattern
+# (high_identifier_pattern)	@pattern
+# (application_pattern)		@pattern
+# (low_application_pattern)	@pattern
+# (binary_pattern)		@pattern
+# (unary_pattern)			@pattern
+# (hole_pattern)			@pattern
+
+# literals?
+
+  integer: 'constant.numeric.integer'
+  double: 'constant.numeric.float'
+  regexp: 'string.regexp' # @string.special
+  single_string: 'string.quoted.single'
+  double_string: 'string.quoted.double'
+
+  interpolation: 'meta.embedded'
+
+# Operators are less interesting than the other properties called out above
+
+  dot_op: 'keyword.operator'
+  composition_op: 'keyword.operator'
+  unary_fn_op: 'keyword.operator'
+  exponent_op: 'keyword.operator'
+  muldiv_op: 'keyword.operator'
+  addsub_op: 'keyword.operator'
+  comparison_op: 'keyword.operator'
+  inequality_op: 'keyword.operator'
+  and_op: 'keyword.operator'
+  or_op: 'keyword.operator'
+  currency_op: 'keyword.operator'
+  lr_arrow_op: 'keyword.operator'
+  bi_arrow_op: 'keyword.operator'
+  quantifier_op: 'keyword.operator'
+  colon_op: 'keyword.operator'
+  comma_op: 'keyword.operator' # @punctuation.delimiter ; not actually special, but people think it is
+
+# stash
+  id: 'constant.variable'
+  boolean_literal: 'constant.language.boolean'
+  string_literal: 'string'
+  'instance_ref_element > id': 'variable.other.object'
+  primary_literal: 'constant.language.boolean'
+  component_type: 'support.storage.type'
+  '"external"': 'storage.modifier'
+  '"->"': 'keyword.operator.member'
+  template: 'keyword.control.directive'
+  'explicit_component_inst > id': 'entity.name.function'

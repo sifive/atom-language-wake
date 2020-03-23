@@ -1,0 +1,31 @@
+{
+  "name": "language-wake",
+  "version": "0.1.0",
+  "author": "SiFive",
+  "description": "wake language support for Atom",
+  "license": "Apache-2.0",
+  "main": "lib/language-wake.js",
+  "keywords": [
+    "tree-sitter"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sifive/atom-language-wake.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sifive/atom-language-wake/issues"
+  },
+  "homepage": "https://github.com/sifive/atom-language-wake#readme",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "tree-sitter-wake": "^0.18.2"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

@@ -1,0 +1,13 @@
+'.source.wake':
+  'editor':
+    'foldEndPattern': ''
+    'commentStart': '// '
+    'increaseIndentPattern': ''
+    'decreaseIndentPattern': ''
+  'bracket-matcher':
+    autocompleteCharacters: [
+      '()'
+      '[]'
+      '{}'
+      '""'
+    ]
