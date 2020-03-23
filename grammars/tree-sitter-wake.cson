@@ -10,24 +10,20 @@ fileTypes: [
 ]
 
 folds: [
-  'top_definition',
-  'top_target',
-  'definition',
-  'target',
-  'topic'
+  { type: 'block_expression' }
 ]
 
 scopes:
-  binary_arity: 'keyword.control'
+  '"binary"': 'keyword.control'
   '"data"': 'keyword.control'
   '"def"': 'storage.type.function'
   '"else"': 'keyword.control'
-  export_flag: 'keyword.control'
+  '"export"': 'storage.modifier'
   '"from"': 'keyword.control'
-  global_flag: 'storage.modifier.global'
-  here_expression: 'keyword.control'
+  '"global"': 'storage.modifier.global'
+  '"here"': 'variable.language'
   '"if"': 'keyword.control'
-  '"import"': 'keyword.import'
+  '"import"': 'storage.modifier'
   '"match"': 'keyword.control'
   '"package"': 'keyword.package'
   '"prim"': 'keyword.control'
@@ -38,7 +34,7 @@ scopes:
   '"topic"': 'keyword.control'
   '"tuple"': 'keyword.control'
   '"type"': 'keyword.control'
-  unary_arity: 'keyword.control'
+  '"unary"': 'keyword.control'
 
 # Truly special in wake
 
@@ -48,41 +44,26 @@ scopes:
   '"("': 'punctuation.section.parens.begin.bracket.round'
   '")"': 'punctuation.section.parens.end.bracket.round'
 
-# '";"': 'punctuation.terminator.statement'
-# '"{"': 'punctuation.section.block.begin.bracket.curly'
-# '"}"': 'punctuation.section.block.end.bracket.curly'
-
   comment: 'comment.block'
 
-# ; These definitions intoduce a function scope that captures their pattern arguments
-# (definition pattern: (low_application_pattern fn: (low_identifier_pattern) @function)) @local.scope
-# (definition pattern: (binary_pattern operator: (*) @function)) @local.scope
-# (definition pattern: (unary_pattern  operator: (*) @function)) @local.scope
+  # These definitions intoduce a function
+  'definition > low_application_pattern > low_identifier_pattern:nth-child(0)': 'entity.name.function'
+  'definition > binary_pattern > *:nth-child(1)': 'entity.name.function'
+  'definition > unary_pattern > *:nth-child(0)': 'entity.name.function'
+  low_identifier_pattern: 'variable.parameter'
 
-  low_application_pattern: 'entity.name.function'
-  binary_pattern: 'entity.name.function'
-  unary_pattern: 'entity.name.function'
+  'tuple > high_identifier_type': 'entity.name.type'
+  'tuple > fields > field > high_identifier_pattern': 'entity.name.tag'
 
-# (tuple name: (high_identifier_type) @constructor)
-# (tuple (fields (field name: (high_identifier_pattern) @attribute)))
-#
-# (data type: (binary_type operator: (*) @function))
-# (data type: (unary_type  operator: (*) @function))
-# (data type: (application_type  fn: (*) @function))
-# ;(data type: (high_identifier_type) @local.definition)
-#
-# (data (constructors (binary_type operator: (*) @constructor)))
-# (data (constructors (unary_type  operator: (*) @constructor)))
-# (data (constructors (application_type fn: (high_identifier_type) @constructor)))
-# (data (constructors (high_identifier_type) @constructor))
-#
-# (block_expression)		@local.scope
-# (lambda_expression)		@local.scope
-#
-# (low_identifier_pattern)	@local.definition
-# (high_identifier_pattern)	@local.reference
-# (low_identifier_expression)	@local.reference
-# (high_identifier_expression)	@local.reference
+  'data > application_type > *:nth-child(0)': 'entity.name.type'
+  'data > binary_type > *:nth-child(1)': 'entity.name.type'
+  'data > unary_type > *:nth-child(0)': 'entity.name.type'
+  'data > high_identifier_type': 'entity.name.type'
+
+  'data > constructors > binary_type > *:nth-child(1)': 'entity.name.function'
+  'data > constructors > unary_type > *:nth-child(0)': 'entity.name.function'
+  'data > constructors > application_type > *:nth-child(0)': 'entity.name.function'
+  'data > constructors > high_identifier_type': 'entity.name.function'
 
   low_identifier_type: 'support.storage.type'
   high_identifier_type: 'support.storage.type'
@@ -90,23 +71,12 @@ scopes:
   binary_type: 'support.storage.type'
   unary_type: 'support.storage.type'
 
-# (low_identifier_pattern)	@pattern
-# (high_identifier_pattern)	@pattern
-# (application_pattern)		@pattern
-# (low_application_pattern)	@pattern
-# (binary_pattern)		@pattern
-# (unary_pattern)			@pattern
-# (hole_pattern)			@pattern
-
-# literals?
-
   integer: 'constant.numeric.integer'
   double: 'constant.numeric.float'
-  regexp: 'string.regexp' # @string.special
+  regexp: 'string.regexp'
   single_string: 'string.quoted.single'
   double_string: 'string.quoted.double'
-
-  interpolation: 'meta.embedded'
+  interpolation: 'string.interpolated'
 
 # Operators are less interesting than the other properties called out above
 
@@ -128,13 +98,13 @@ scopes:
   comma_op: 'keyword.operator' # @punctuation.delimiter ; not actually special, but people think it is
 
 # stash
-  id: 'constant.variable'
-  boolean_literal: 'constant.language.boolean'
-  string_literal: 'string'
-  'instance_ref_element > id': 'variable.other.object'
-  primary_literal: 'constant.language.boolean'
-  component_type: 'support.storage.type'
-  '"external"': 'storage.modifier'
-  '"->"': 'keyword.operator.member'
-  template: 'keyword.control.directive'
-  'explicit_component_inst > id': 'entity.name.function'
+#  id: 'constant.variable'
+#  boolean_literal: 'constant.language.boolean'
+#  string_literal: 'string'
+#  'instance_ref_element > id': 'variable.other.object'
+#  primary_literal: 'constant.language.boolean'
+#  component_type: 'support.storage.type'
+#  '"external"': 'storage.modifier'
+#  '"->"': 'keyword.operator.member'
+#  template: 'keyword.control.directive'
+#  'explicit_component_inst > id': 'entity.name.function'
