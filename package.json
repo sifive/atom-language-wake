@@ -1,6 +1,6 @@
 {
   "name": "language-wake",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "SiFive",
   "description": "wake language support for Atom",
   "license": "Apache-2.0",
